@@ -1,0 +1,52 @@
+Here All DAX FORMULA To Create Measures 
+
+Total Runs = SUM(fact_batting_summary[runs])
+Total Innings Batted = COUNT(fact_batting_summary[match_id])
+SUM(fact_batting_summary[out])
+Batting Avg = DIVIDE([Total Runs],[Total Innings Dismissed],0)
+
+total balls faced = SUM(fact_batting_summary[balls])
+Strike rate = DIVIDE([Total Runs],[total balls faced],0)*100
+
+Batting Position = ROUNDUP(AVERAGE(fact_batting_summary[batting_pos]),0)
+Boundary % =  DIVIDE(SUM(fact_batting_summary[Boundary runs]),[Total Runs],0)
+AVERAGE(fact_batting_summary[balls])
+
+wickets = SUM(fact_bowling_summary[wickets])
+balls Bowled = SUM(fact_bowling_summary[balls])
+Runs Conceded = SUM(fact_bowling_summary[runs])
+Economy = DIVIDE( [Runs Conceded], ([balls Bowled]/6),0)
+Bowling Strike Rate = DIVIDE([balls Bowled], [wickets],0)
+Bowling Average = DIVIDE([Runs Conceded],[wickets],0)
+
+Total Innings Bowled = DISTINCTCOUNT(fact_bowling_summary[match_id])
+Dot ball % = DIVIDE(SUM(fact_bowling_summary[zeros]), SUM(fact_bowling_summary[balls]),0)
+
+Player Selection = if(ISFILTERED(dim_player[name]),"1","0")
+"Display Text = if([Player Selection] = ""1"", "" "" ,""Select Player(s) by clicking 
+the player’s name to see their individual or combined strength."")"
+Color Callout Value = if([Player Selection]="0", "#D0CF1D","#1D1D2E")
+
+
+
+
+DAX formula
+boundary runs = fact_batting_summary[fours]*4 + fact_batting_summary[sixes]*6
+Boundary runs = fact_bowling_summary[fours]*4 +fact_bowling_summary[Sixes]*6
+"SWITCH(
+    TRUE(),
+dim_player[name] = ""Jos Buttler"",1,
+dim_player[name] = ""Rilee Rossouw"",2,
+dim_player[name] = ""Alex Hales"",2,
+dim_player[name]  = ""Virat Kohli"",3,
+dim_player[name] = ""Suryakumar Yadav"" ,4,
+dim_player[name] = ""Glenn Phillips"" ,5,
+dim_player[name] = ""Marcus Stoinis"" ,6,
+dim_player[name] = ""Glenn Maxwell"" ,6,
+dim_player[name] = ""Sikandar Raza"" ,7,
+dim_player[name] = ""Rashid Khan"" ,8,
+dim_player[name] = ""Shadab Khan"" ,8,
+dim_player[name] = ""Sam Curran"" ,9,
+dim_player[name] = ""Shaheen Shah Afridi"" ,10,
+dim_player[name] = ""Anrich Nortje"" ,11
+)"
